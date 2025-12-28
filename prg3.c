@@ -1,0 +1,181 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+int BOOK_ID;
+char BOOK_TITLE[20];
+char AUTHOR[30];
+char EDITION[3];
+struct node *llink;
+struct node *rlink;
+};
+typedef struct node *NODE;
+NODE getnode(void)
+{
+NODE x;
+x=(NODE)malloc(sizeof(struct node));
+if(x==NULL)
+{printf("Out of memory..\n");
+exit(0);
+}
+return x;
+}
+NODE insert_rear(NODE first)
+{
+NODE temp,cur;
+temp=getnode();
+//temp->rlink=temp->llink=NULL;
+printf("\nEnter the BOOK_ID:");
+scanf("%d",&temp->BOOK_ID);
+printf("\nEnter the BOOK_TITLE:");
+scanf("%s",temp->BOOK_TITLE);
+printf("\nEnter the AUTHOR:");scanf("%s",temp->AUTHOR);
+printf("\nEnter the EDITION:");
+scanf("%s",temp->EDITION);
+temp->rlink=temp->llink=NULL;
+if(first==NULL)
+{
+first=temp;
+return first;
+}
+cur=first;
+while(cur->rlink!=NULL)
+{
+cur=cur->rlink;
+}
+cur->rlink=temp;
+temp->llink=cur;
+return first;
+}
+NODE insert_front(NODE first)
+{
+NODE temp,cur;
+temp=getnode();
+//temp->rlink=temp->llink=NULL;
+printf("\nEnter the BOOK_ID:");
+scanf("%d",&temp->BOOK_ID);
+printf("\nEnter the BOOK_TITLE:");
+scanf("%s",temp->BOOK_TITLE);
+printf("\nEnter the AUTHOR:");
+scanf("%s",temp->AUTHOR);
+printf("\nEnter the EDITION:");
+scanf("%s",temp->EDITION);
+temp->rlink=temp->llink=NULL;
+if(first==NULL)
+{
+first=temp;
+return first;
+}
+temp->rlink=first;
+first->llink=temp;
+return temp;
+}
+NODE count_nodes(NODE first)
+{
+int count=0;
+NODE cur;
+if(first==NULL)
+{
+printf("\nList is Empty\n");
+return NULL;
+}
+cur=first;
+while(cur!=NULL)
+{
+count++;
+cur=cur->rlink;
+}
+printf("\nThe no. of nodes in the list = %d\n",count);
+return first;
+}
+NODE del_rear(NODE first)
+{
+NODE cur,prev;
+if(first==NULL)
+{
+printf("\nList is Empty\n");
+return NULL;
+}
+prev=NULL;
+cur=first;
+while(cur->rlink!=NULL)
+{
+prev=cur;
+cur=cur->rlink;
+}
+printf("\n The node with the following information is Deleted:");
+printf("\nBOOK_ID:%d",cur->BOOK_ID);
+printf("\nBOOK_TITLE:%s",cur->BOOK_TITLE);
+printf("\nAUTHOR:%s",cur->AUTHOR);
+printf("\nEDITION:%s",cur->EDITION);
+free(cur);
+prev->rlink=NULL;return first;
+}
+NODE del_front(NODE first)
+{
+NODE cur;
+if(first==NULL)
+{
+printf("\nList is Empty\n");
+return NULL;
+}
+cur=first;
+first=first->rlink;
+printf("\n The node with the following information is Deleted:");
+printf("\nBOOK_ID:%d",cur->BOOK_ID);
+printf("\nBOOK_TITLE:%s",cur->BOOK_TITLE);
+printf("\nAUTHOR:%s",cur->AUTHOR);
+printf("\nEDITION:%s",cur->EDITION);
+free(cur);
+first->llink=NULL;
+return first;
+}
+void display(NODE first)
+{
+NODE temp;
+if(first==NULL)
+{
+printf("\nDList is Empty...\n");
+return;
+}
+printf("\nThe contents of the DList are:\n");
+for(temp=first;temp!=NULL;temp=temp->rlink)
+{
+printf("BOOK_ID=%d\n",temp->BOOK_ID);
+printf("BOOK_TITLE=%s\n",temp->BOOK_TITLE);
+printf("AUTHOR=%s\n",temp->AUTHOR);
+printf("EDITION=%s\n",temp->EDITION);
+printf("\n");
+}
+}void main()
+{
+NODE first=NULL;
+int choice;
+//clrscr();
+for(;;)
+{
+printf("\n*********OPERATIONS ON DLL*****************\n");
+printf("1:Insert-rear\n2:Insert-front\n3.Count the nodes in the List\n");
+printf("4:Delete-rear\n5:Delete-front\n6:Display\n7:Exit\n");
+printf("********************************************\n");
+printf("Enter your choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1: first=insert_rear(first);
+break;
+case 2: first=insert_front(first);
+break;
+case 3: first=count_nodes(first);
+break;
+case 4: first=del_rear(first);
+break;
+case 5: first=del_front(first);
+break;
+case 6: display(first);
+break;
+default:printf("Invalid choice...\n");
+exit(0);
+}
+}
+}
